@@ -22,11 +22,6 @@ public class DeleteTripServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -40,14 +35,14 @@ public class DeleteTripServlet extends HttpServlet {
             boolean deleted = tripService.deleteTrip(tripId, user.getId());
 
             if (deleted) {
-                response.sendRedirect(request.getContextPath() + "/main?success=Поездка удалена");
+                response.sendRedirect(request.getContextPath() + "/my-trips");
             } else {
-                response.sendRedirect(request.getContextPath() + "/main?error=Не удалось удалить поездку");
+                response.sendRedirect(request.getContextPath() + "/my-trips?error=Не удалось удалить поездку");
             }
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Неверный ID поездки");
+            response.sendRedirect(request.getContextPath() + "/my-trips?error=Неверный ID поездки");
         } catch (Exception e) {
-            response.sendRedirect(request.getContextPath() + "/main?error=" + e.getMessage());
+            response.sendRedirect(request.getContextPath() + "/my-trips?error=Ошибка удаления поездки: " + e.getMessage());
         }
     }
 }

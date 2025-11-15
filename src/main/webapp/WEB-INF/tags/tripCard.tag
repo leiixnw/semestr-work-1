@@ -7,11 +7,11 @@
 <div class="trip-item">
     <h3>${trip.title}</h3>
     <div class="trip-meta">
-        <strong>📍 Направление:</strong> ${trip.destination}<br>
-        <strong>📅 Даты:</strong>
+        <strong>Направление:</strong> ${trip.destination}<br>
+        <strong>Даты:</strong>
         ${trip.formattedStartDate} - ${trip.formattedEndDate}
         <br>
-        <strong>👥 Участники:</strong> ${trip.currentParticipants}/${trip.maxParticipants}
+        <strong>Участники:</strong> ${trip.currentParticipants}/${trip.maxParticipants}
     </div>
     <p>${fn:substring(trip.description, 0, 100)}...</p>
 

@@ -35,7 +35,7 @@ public class DeleteApplicationServlet extends HttpServlet {
             boolean deleted = applicationService.deleteApplication(applicationId, user.getId());
 
             if (deleted) {
-                response.sendRedirect(request.getContextPath() + "/my-applications?success=Заявка удалена");
+                response.sendRedirect(request.getContextPath() + "/my-applications");
             } else {
                 response.sendRedirect(request.getContextPath() + "/my-applications?error=Не удалось удалить заявку");
             }

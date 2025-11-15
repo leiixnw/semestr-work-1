@@ -50,7 +50,7 @@
             <div class="form-group">
                 <label>Статус:</label>
                 <select name="status">
-                    <option value="ACTIVE" ${trip.status == 'ACTIVE' ? 'selected' : ''}>Активна</option>
+                    <option value="ACTIVE" ${trip.status == 'ACTIVE' ? 'selected' : ''}>Актуальна</option>
                     <option value="COMPLETED" ${trip.status == 'COMPLETED' ? 'selected' : ''}>Завершена</option>
                     <option value="CANCELLED" ${trip.status == 'CANCELLED' ? 'selected' : ''}>Отменена</option>
                 </select>

@@ -39,4 +39,9 @@ public class MyTripsServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/user/my-trips.jsp").forward(request, response);
         }
     }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
 }

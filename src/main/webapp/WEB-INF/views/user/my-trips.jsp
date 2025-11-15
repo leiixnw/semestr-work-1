@@ -24,12 +24,11 @@
             <div class="card">
                 <h3>${trip.title}</h3>
                 <div class="trip-meta">
-                    <p><strong>📍 Направление:</strong> ${trip.destination}</p>
-                    <p><strong>📅 Даты:</strong>
+                    <p><strong>Направление:</strong> ${trip.destination}</p>
+                    <p><strong>Даты:</strong>
                             ${trip.formattedStartDate} - ${trip.formattedEndDate}
                     </p>
-                    <p><strong>👥 Участники:</strong> ${trip.currentParticipants}/${trip.maxParticipants}</p>
-                    <p><strong>📊 Статус:</strong> ${trip.status}</p>
+                    <p><strong>Участники:</strong> ${trip.currentParticipants}/${trip.maxParticipants}</p>
                 </div>
 
                 <div class="action-buttons">

@@ -47,7 +47,7 @@ public class UpdateApplicationStatusServlet extends HttpServlet {
             }
 
             applicationService.updateApplicationStatus(applicationId, status, user.getId());
-            response.sendRedirect(request.getContextPath() + "/trip?id=" + tripId + "&success=Статус заявки обновлен");
+            response.sendRedirect(request.getContextPath() + "/main");
         } catch (IllegalArgumentException e) {
             response.sendRedirect(request.getContextPath() + "/trip?id=" + request.getParameter("tripId") + "&error=" + e.getMessage());
         } catch (Exception e) {

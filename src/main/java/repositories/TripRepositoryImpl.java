@@ -305,6 +305,8 @@ public class TripRepositoryImpl implements TripRepository {
                 .maxParticipants(resultSet.getInt("max_participants"))
                 .creatorId(resultSet.getLong("creator_id"))
                 .status(resultSet.getString("status"))
+                .currentParticipants(resultSet.getInt("current_participants"))
+                .creatorUsername(resultSet.getString("creator_username"))
                 .build();
     }
 }

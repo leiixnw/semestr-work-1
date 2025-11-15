@@ -26,8 +26,8 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
         """;
 
     private static final String SAVE_APPLICATION = """
-        INSERT INTO applications (trip_id, applicant_id, status)
-        VALUES (?, ?, ?);
+        INSERT INTO applications (trip_id, applicant_id, message, status)
+        VALUES (?, ?, ?, ?);
         """;
 
     private static final String FIND_BY_ID = """
@@ -62,16 +62,7 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
         LEFT JOIN trips t ON a.trip_id = t.id
         WHERE a.trip_id = ?
         ORDER BY a.applied_at DESC;
-        """;
-
-    private static final String FIND_BY_TRIP_ID_AND_STATUS = """
-        SELECT a.*, u.username as applicant_username, t.title as trip_title, t.destination as trip_destination
-        FROM applications a
-        LEFT JOIN users u ON a.applicant_id = u.id
-        LEFT JOIN trips t ON a.trip_id = t.id
-        WHERE a.trip_id = ? AND a.status = ?
-        ORDER BY a.applied_at DESC;
-        """;
+    """;
 
     private static final String FIND_BY_TRIP_ID_AND_APPLICANT_ID = """
         SELECT a.*, u.username as applicant_username, t.title as trip_title, t.destination as trip_destination
@@ -95,23 +86,24 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
     private final String url;
 
     public ApplicationRepositoryImpl() {
-        this.properties = new Properties();
-        try (InputStream inputStream = getClass().getResourceAsStream("/application.properties")) {
-            properties.load(inputStream);
+        try {
             Class.forName("org.postgresql.Driver");
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException("Failed to initialize ApplicationRepository", e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        this.url = properties.getProperty("url");
-        initializeTable();
-    }
-
-    private void initializeTable() {
+        properties = new Properties();
+        InputStream inputStream = getClass().getResourceAsStream("/application.properties");
+        try {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        url = properties.getProperty("url");
         try (Connection connection = DriverManager.getConnection(url, properties);
              Statement statement = connection.createStatement()) {
             statement.executeUpdate(CREATE_TABLE);
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to create applications table", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -122,7 +114,8 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 
             statement.setLong(1, application.getTripId());
             statement.setLong(2, application.getApplicantId());
-            statement.setString(3, application.getStatus().name());
+            statement.setString(3, application.getMessage());
+            statement.setString(4, application.getStatus().name());
 
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -280,6 +273,10 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
                 .status(Status.valueOf(resultSet.getString("status")))
                 .appliedAt(resultSet.getTimestamp("applied_at") != null ?
                         resultSet.getTimestamp("applied_at").toLocalDateTime() : null)
+                .applicantUsername(resultSet.getString("applicant_username"))
+                .tripTitle(resultSet.getString("trip_title"))
+                .tripDestination(resultSet.getString("trip_destination"))
+                .message(resultSet.getString("message"))
                 .build();
     }
 }

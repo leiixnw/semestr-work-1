@@ -24,7 +24,12 @@
                         ${trip.formattedStartDate} - ${trip.formattedEndDate}
                 </p>
                 <p class="status-${app.status.toString().toLowerCase()}">
-                    <strong>Статус заявки:</strong> ${app.status}
+                    <strong>Статус заявки:</strong>
+                    <c:choose>
+                        <c:when test="${app.status == 'PENDING'}">Ожидает рассмотрения</c:when>
+                        <c:when test="${app.status == 'ACCEPTED'}">Принята</c:when>
+                        <c:when test="${app.status == 'REJECTED'}">Отклонена</c:when>
+                    </c:choose>
                 </p>
                 <p><strong>Подана:</strong>
                         ${app.formattedAppliedAt}
@@ -55,7 +60,6 @@
         <c:if test="${empty myApplications}">
             <div class="card">
                 <p>У вас пока нет заявок на поездки.</p>
-                <a href="${pageContext.request.contextPath}/trips" class="btn">Найти поездки</a>
             </div>
         </c:if>
     </div>

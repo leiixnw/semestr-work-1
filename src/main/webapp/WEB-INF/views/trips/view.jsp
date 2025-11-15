@@ -11,12 +11,12 @@
         <h1>${trip.title}</h1>
 
         <div class="trip-meta">
-            <p><strong>📍 Направление:</strong> ${trip.destination}</p>
-            <p><strong>📅 Даты:</strong>
+            <p><strong>Направление:</strong> ${trip.destination}</p>
+            <p><strong>Даты:</strong>
                     ${trip.formattedStartDate} - ${trip.formattedEndDate}
             </p>
-            <p><strong>👥 Участники:</strong> ${trip.currentParticipants}/${trip.maxParticipants}</p>
-            <p><strong>👤 Организатор:</strong> ${trip.creatorUsername}</p>
+            <p><strong>Участники:</strong> ${trip.currentParticipants}/${trip.maxParticipants}</p>
+            <p><strong>Организатор:</strong> ${trip.creatorUsername}</p>
         </div>
 
         <div class="card">
@@ -37,7 +37,12 @@
                     </c:when>
                     <c:when test="${not empty userApplication && userApplication.present}">
                         <p class="status-${userApplication.get().status.toString().toLowerCase()}">
-                            Статус вашей заявки: ${userApplication.get().status}
+                            Статус вашей заявки:
+                            <c:choose>
+                                <c:when test="${userApplication.get().status == 'PENDING'}">Ожидает рассмотрения</c:when>
+                                <c:when test="${userApplication.get().status == 'ACCEPTED'}">Принята</c:when>
+                                <c:when test="${userApplication.get().status == 'REJECTED'}">Отклонена</c:when>
+                            </c:choose>
                         </p>
                     </c:when>
                     <c:otherwise>
@@ -67,7 +72,13 @@
             <c:forEach items="${applications}" var="app">
                 <div class="trip-item">
                     <h4>${app.applicantUsername}</h4>
-                    <p class="status-${app.status.toString().toLowerCase()}">Статус: ${app.status}</p>
+                    <p class="status-${app.status.toString().toLowerCase()}">Статус:
+                        <c:choose>
+                            <c:when test="${app.status == 'PENDING'}">Ожидает рассмотрения</c:when>
+                            <c:when test="${app.status == 'ACCEPTED'}">Принята</c:when>
+                            <c:when test="${app.status == 'REJECTED'}">Отклонена</c:when>
+                        </c:choose>
+                    </p>
                     <p class="trip-meta">Подана: ${app.formattedAppliedAt}</p>
 
                     <c:if test="${not empty app.message}">

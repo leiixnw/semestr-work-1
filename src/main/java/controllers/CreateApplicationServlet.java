@@ -33,23 +33,18 @@ public class CreateApplicationServlet extends HttpServlet {
             return;
         }
 
-        try {
-            Long tripId = Long.parseLong(request.getParameter("tripId"));
-            String message = request.getParameter("message");
+        Long tripId = Long.parseLong(request.getParameter("tripId"));
+        String message = request.getParameter("message");
 
-            Application application = Application.builder()
-                    .tripId(tripId)
-                    .applicantId(user.getId())
-                    .status(Status.PENDING)
-                    .appliedAt(LocalDateTime.now())
-                    .build();
+        Application application = Application.builder()
+                .tripId(tripId)
+                .applicantId(user.getId())
+                .status(Status.PENDING)
+                .appliedAt(LocalDateTime.now())
+                .message(message)
+                .build();
 
-            Application createdApplication = applicationService.createApplication(application);
-            response.sendRedirect(request.getContextPath() + "/trip?id=" + tripId + "&success=Заявка отправлена");
-        } catch (IllegalArgumentException e) {
-            response.sendRedirect(request.getContextPath() + "/trip?id=" + request.getParameter("tripId") + "&error=" + e.getMessage());
-        } catch (Exception e) {
-            response.sendRedirect(request.getContextPath() + "/trip?id=" + request.getParameter("tripId") + "&error=Ошибка отправки заявки");
-        }
+        Application createdApplication = applicationService.createApplication(application);
+        response.sendRedirect(request.getContextPath() + "/main");
     }
 }

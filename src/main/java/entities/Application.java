@@ -18,7 +18,11 @@ public class Application {
     private Long tripId;
     private Long applicantId;
     private Status status;
+    String message;
     private LocalDateTime appliedAt;
+    private String applicantUsername;
+    private String tripTitle;
+    private String tripDestination;
 
     public String getFormattedAppliedAt() {
         return appliedAt != null ?
