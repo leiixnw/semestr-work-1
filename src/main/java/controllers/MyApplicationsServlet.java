@@ -1,5 +1,7 @@
 package controllers;
 
+import entities.Application;
+import entities.Trip;
 import entities.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,8 +10,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import services.ApplicationServiceImpl;
+import services.TripServiceImpl;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @WebServlet("/my-applications")
 public class MyApplicationsServlet extends HttpServlet {
@@ -30,8 +36,11 @@ public class MyApplicationsServlet extends HttpServlet {
             return;
         }
 
+
+
         try {
-            var myApplications = applicationService.findByApplicantId(user.getId());
+            List<Application> myApplications = applicationService.findByApplicantId(user.getId());
+
             request.setAttribute("myApplications", myApplications);
             request.getRequestDispatcher("/WEB-INF/views/user/my-applications.jsp").forward(request, response);
         } catch (Exception e) {

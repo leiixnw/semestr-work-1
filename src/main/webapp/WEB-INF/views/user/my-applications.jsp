@@ -20,9 +20,6 @@
             <div class="card">
                 <h3>${app.tripTitle}</h3>
                 <p><strong>Направление:</strong> ${app.tripDestination}</p>
-                <p><strong>Даты:</strong>
-                        ${trip.formattedStartDate} - ${trip.formattedEndDate}
-                </p>
                 <p class="status-${app.status.toString().toLowerCase()}">
                     <strong>Статус заявки:</strong>
                     <c:choose>
